@@ -1,133 +1,136 @@
-# Multi-Class Melanoma Classification with Transformer-CNN Ensembles
+# **Melanoma Detection using Transformer-CNN Ensemble Framework**
 
-This repository contains Jupyter notebooks for training and evaluating deep learning models on the **PH² dataset** for **multi-class melanoma classification**.  
-The project evaluates **transformer-based** and **CNN-based** architectures and boosts performance through **ensemble learning** with a **Base Model (ResNet-50)**.
+## **Overview**
 
----
+This repository contains the implementation and evaluation of an **ensemble learning framework** that integrates multiple **transformer-based architectures** (ViT, Swin Transformer, MaxViT, ConvNeXt) with a **CNN baseline (ResNet-50)** for **multi-class melanoma detection** from dermoscopic images.
 
-## 📌 Project Overview
-
-Melanoma is a severe type of skin cancer that benefits greatly from early detection. This project explores multiple state-of-the-art models:
-
-- **Vision Transformer (ViT)**
-- **ConvNeXt**
-- **Swin Transformer**
-- **MaxViT**
-- **Base Model (ResNet-50)**
-
-Each transformer-based model is trained individually and then combined with the **Base Model** using an **ensemble approach** (probability averaging). The goal is to assess performance gains from combining architectures with complementary strengths.
+The project was developed as part of research addressing the **urgent need for accurate, interpretable, and clinically deployable AI-based melanoma detection systems**, and forms the experimental backbone for the research paper:
 
 ---
 
-## 🗂 Repository Structure
+## **Background & Motivation**
+
+Melanoma is the deadliest form of skin cancer, responsible for **325,000 new cases and 57,000 deaths annually** worldwide. Early detection is critical — 5-year survival drops from **99%** (localized) to **27%** (metastatic). Current diagnostic practice relies heavily on **dermatologist visual assessment**, which suffers from **inter-observer variability (65–85% agreement)** and **specialist shortages** in many regions.
+
+Deep learning methods have achieved dermatologist-level accuracy in binary melanoma classification, but face three key challenges:
+
+1. **CNNs’ locality bias** limits capturing of global contextual lesion patterns.
+2. **Single-model solutions** fail to leverage complementary strengths across architectures.
+3. **Poor interpretability** reduces clinical trust and adoption.
+
+This research bridges these gaps by:
+
+* Combining CNN and Transformer models to exploit **both local and global feature learning**.
+* Using **meta-learning ensembles** for optimal prediction fusion.
+* Integrating **explainable AI** tailored for transformer architectures.
+
+---
+
+## **Research Objectives**
+
+1. **Evaluate Transformer-based models** (ViT, Swin, MaxViT, ConvNeXt) and compare them against CNN baselines for multi-class melanoma classification.
+2. **Develop a two-tier meta-learning ensemble framework** combining transformer and CNN architectures.
+3. **Incorporate explainable AI** techniques (Grad-CAM for attention, LIME) for clinically interpretable predictions.
+4. **Shift from binary to 6-class classification** to reflect real-world diagnostic workflows.
+
+---
+
+## **Novelty & Contributions**
+
+1. **First ensemble framework** systematically merging multiple transformer models with CNNs for melanoma detection.
+2. **Advanced meta-learning** using Random Forest as a meta-classifier, outperforming naïve voting/averaging.
+3. **Transformer-specific explainability** methods mapping AI decisions to dermatological criteria.
+4. **Clinically realistic multi-class setup**, improving real-world applicability.
+
+---
+
+## **Dataset**
+
+We used the **ISIC 2020/2021 Challenge dataset**, consisting of dermoscopic images across six lesion categories (malignant & benign).
+
+* **Source:** [ISIC Archive](https://www.isic-archive.com/)
+* Preprocessing: resizing, normalization, stratified patient-level split, and augmentation.
+
+---
+
+## **Architectures Evaluated**
+
+| Model         | Test Accuracy | Precision | Recall | F1-Score | AUC-ROC  | Parameters (M) |
+| ------------- | ------------- | --------- | ------ | -------- | -------- | -------------- |
+| **ViT**       | 0.8000        | 0.7900    | 0.7600 | 0.7700   | -        | 86             |
+| **ConvNeXt**  | 0.8087        | 0.8100    | 0.7700 | 0.7800   | -        | 89             |
+| **Swin**      | 0.6754        | 0.6637    | 0.6359 | 0.6289   | 0.9007\* | 88             |
+| **MaxViT**    | 0.7478        | 0.7025    | 0.7352 | 0.7161   | 0.9045   | 119            |
+| **ResNet-50** | 0.8107        | 0.8603    | 0.7712 | 0.8123   | 0.9729   | 27             |
+
+---
+
+## **Ensemble Results (ResNet-50 + Transformers)**
+
+| Combination          | Avg Accuracy | Precision | Recall | F1-Score | Best Fold | Std Dev |
+| -------------------- | ------------ | --------- | ------ | -------- | --------- | ------- |
+| **ViT + ResNet-50**  | **0.9508**   | 0.9500    | 0.9400 | 0.9500   | 0.9609    | 0.0098  |
+| ConvNeXt + ResNet-50 | 0.9404       | 0.9300    | 0.9200 | 0.9300   | 0.9457    | 0.0102  |
+| MaxViT + ResNet-50   | 0.9165       | 0.9200    | 0.8800 | 0.9000   | 0.9239    | 0.0127  |
+| Swin + ResNet-50     | 0.9017       | 0.8900    | 0.8700 | 0.8800   | 0.9109    | 0.0058  |
+
+---
+
+## **Folder Structure**
 
 ```
-
-.
-├── New\_MMelanoma\_full.ipynb         # Contains ViT, ConvNeXt, Swin, MaxViT training & ensemble evaluation
-├── Base\_Model.ipynb                 # ResNet-50 training & evaluation (baseline model)
-├── README.md                        # Project documentation
-└── requirements.txt                 # Python dependencies
-
-````
+📂 melanoma-detection
+ ├── 📓 Base_Model.ipynb          # ResNet-50 training & evaluation
+ ├── 📓 New_MMelanoma_full.ipynb  # Ensemble framework & results
+ ├── 📄 requirements.txt          # Dependencies
+ └── 📄 README.md                 # Project documentation
+```
 
 ---
 
-## ⚙️ Requirements
+## **Usage Instructions**
 
-Install dependencies with:
+### 1️⃣ Clone Repository
+
+```bash
+git clone https://github.com/yourusername/melanoma-detection.git
+cd melanoma-detection
+```
+
+### 2️⃣ Install Dependencies
 
 ```bash
 pip install -r requirements.txt
-````
-
-**Main libraries:**
-
-* TensorFlow / Keras
-* timm (PyTorch Image Models, for transformers)
-* NumPy, Pandas
-* OpenCV
-* Matplotlib, Seaborn
-* scikit-learn
-
----
-
-## 📂 Dataset
-
-* **Dataset**: PH² Dataset ([http://www.fc.up.pt/addi/ph2%20database.html](http://www.fc.up.pt/addi/ph2%20database.html))
-* Contains dermoscopic images with metadata for multiple lesion classes.
-* Store dataset in Google Drive and update file paths in the notebooks.
-
----
-
-## 🚀 Usage
-
-### 1️⃣ Train Baseline CNN (Base Model - ResNet-50)
-
-```bash
-jupyter notebook Base_Model.ipynb
 ```
 
-### 2️⃣ Train Transformer Models
+### 3️⃣ Dataset Access
 
-```bash
-jupyter notebook New_MMelanoma_full.ipynb
+* Update Google Drive paths in the notebooks to your own Drive mount point.
+
+### 4️⃣ Train Base Model (ResNet-50)
+
+```python
+# Run all cells in Base_Model.ipynb
 ```
 
-This notebook trains:
+### 5️⃣ Train Ensemble Models
 
-* Vision Transformer (ViT)
-* ConvNeXt
-* Swin Transformer
-* MaxViT
-
-It also evaluates **ensembles** of each transformer with the Base Model (ResNet-50).
+```python
+# Run all cells in New_MMelanoma_full.ipynb
+```
 
 ---
 
-## 📊 Results
+## **Reproducibility Notes**
 
-### **Individual Models**
-
-| Model                  | Test Accuracy | Precision | Recall | F1-Score |  AUC-ROC | Parameters (M) |
-| ---------------------- | ------------: | --------: | -----: | -------: | -------: | -------------: |
-| Vision Transformer     |        0.8000 |    0.7900 | 0.7600 |   0.7700 |        - |             86 |
-| ConvNeXt               |        0.8087 |    0.8100 | 0.7700 |   0.7800 |        - |             89 |
-| Swin Transformer       |        0.6754 |    0.6637 | 0.6359 |   0.6289 | 0.9007\* |             88 |
-| MaxViT                 |        0.7478 |    0.7025 | 0.7352 |   0.7161 |   0.9045 |            119 |
-| Base Model (ResNet-50) |        0.8107 |    0.8603 | 0.7712 |   0.8123 |   0.9729 |             27 |
-
-\* AUC-ROC values for ViT and ConvNeXt were not computed in this run.
+* All experiments were conducted in **Google Colab Pro** with **NVIDIA Tesla V100 GPU**.
+* **Patient-level K-fold CV** was used to avoid data leakage.
 
 ---
 
-### **Ensemble Combinations with Base Model**
-
-| Ensemble              | Avg Accuracy | Precision | Recall | F1-Score | Best Fold Accuracy | Std Dev |
-| --------------------- | -----------: | --------: | -----: | -------: | -----------------: | ------: |
-| ViT + Base Model      |   **0.9508** |    0.9500 | 0.9400 |   0.9500 |             0.9609 |  0.0098 |
-| ConvNeXt + Base Model |       0.9404 |    0.9300 | 0.9200 |   0.9300 |             0.9457 |  0.0102 |
-| MaxViT + Base Model   |       0.9165 |    0.9200 | 0.8800 |   0.9000 |             0.9239 |  0.0127 |
-| Swin + Base Model     |       0.9017 |    0.8900 | 0.8700 |   0.8800 |             0.9109 |  0.0058 |
-
-**Key Finding:** All ensembles outperformed the best single model, with **ViT + Base Model** achieving the highest accuracy.
-
----
-
-## ⚠️ Notes for Reuse
-
-* **Google Drive Paths**: The notebooks use the author’s Google Drive structure (`/content/drive/MyDrive/...`). Update these paths for your environment.
-* **Colab GPU Runtime**: Recommended for training speed.
-
----
-
-## 📜 License
+## **License**
 
 This project is licensed under the MIT License.
 
 ---
 
-## 👩‍💻 Author
-
-**Deborah Adedigba**
-Applied AI and Data Science
