@@ -133,4 +133,7 @@ pip install -r requirements.txt
 This project is licensed under the MIT License.
 
 ---
+# 👩‍💻 Author
 
+**Deborah Adedigba**
+Applied AI and Data Science
