@@ -44,11 +44,11 @@ This research bridges these gaps by:
 
 ---
 
-## **Dataset**
+##  📂 **Dataset**
 
-We used the **ISIC 2020/2021 Challenge dataset**, consisting of dermoscopic images across six lesion categories (malignant & benign).
-
-* **Source:** [ISIC Archive](https://www.isic-archive.com/)
+* **Dataset**: PH² Dataset ([http://www.fc.up.pt/addi/ph2%20database.html](http://www.fc.up.pt/addi/ph2%20database.html))
+* Contains dermoscopic images with metadata for multiple lesion classes.
+* Store dataset in Google Drive and update file paths in the notebooks.
 * Preprocessing: resizing, normalization, stratified patient-level split, and augmentation.
 
 ---
