@@ -10,7 +10,7 @@ The project was developed as part of research addressing the **urgent need for a
 
 ## **Background & Motivation**
 
-Melanoma is the deadliest form of skin cancer, responsible for **325,000 new cases and 57,000 deaths annually** worldwide. Early detection is critical — 5-year survival drops from **99%** (localized) to **27%** (metastatic). Current diagnostic practice relies heavily on **dermatologist visual assessment**, which suffers from **inter-observer variability (65–85% agreement)** and **specialist shortages** in many regions.
+Melanoma is the deadliest form of skin cancer, responsible for **325,000 new cases and 57,000 deaths annually** worldwide. Early detection is critical 5-year survival drops from **99%** (localized) to **27%** (metastatic). Current diagnostic practice relies heavily on **dermatologist visual assessment**, which suffers from **inter-observer variability (65–85% agreement)** and **specialist shortages** in many regions.
 
 Deep learning methods have achieved dermatologist-level accuracy in binary melanoma classification, but face three key challenges:
 
